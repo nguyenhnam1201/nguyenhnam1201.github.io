@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Khám phá Bắc Ninh</title>
+
+
+
+
+<style>
+  /* --- CSS Styling (Đã cập nhật) --- */
+  
+  /* CSS nút mở popup */
+  #openPopupBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 0;
+    transition: background-color 0.2s ease;
+  }
+  #openPopupBtn:hover {
+      background-color: #0056b3;
+  }
+  #openPopupBtn span {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+  }
+
+  /* CSS hộp thoại popup */
+  #popupDialog {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    max-height: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+  #popupDialog.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Header của popup */
+  .popup-header {
+    padding: 10px 15px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  .popup-header span {
+    font-weight: bold;
+  }
+
+  /* Nút đóng */
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 5px;
+    color: #555;
+  }
+  .close-btn:hover {
+      color: #000;
+  }
+
+  /* Nội dung của popup */
+  .popup-content {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+  }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    #popupDialog {
+      width: calc(100% - 40px);
+      bottom: 10px;
+      right: 10px;
+      left: 10px;
+    }
+    #openPopupBtn {
+        bottom: 10px;
+        right: 10px;
+    }
+  }
+</style>
+
+
+
+
+
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function showPayment() {
+      document.getElementById('payment-section').classList.remove('hidden');
+    }
+
+    function confirmPayment() {
+      document.getElementById('success-message').classList.remove('hidden');
+    }
+  </script>
+
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="relative">
+    <img src="https://images.unsplash.com/photo-1578926283645-4f2fef8c7b97?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Bắc Ninh" class="w-full h-60 object-cover">
+    <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex flex-col items-center justify-center text-white">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Logo-example.png" alt="Logo Tập đoàn" class="w-20 h-20 mb-4">
+      <h1 class="text-4xl font-bold">Khám Phá Bắc Ninh</h1>
+      <p class="text-lg mt-2">Văn hóa - Con người - Phong cảnh tuyệt đẹp</p>
+    </div>
+  </header>
+
+  <!-- Nav -->
+  <nav class="bg-green-700 text-white p-4 flex justify-center space-x-6">
+    <a href="#culture" class="hover:underline">Văn Hóa</a>
+    <a href="#people" class="hover:underline">Con Người</a>
+    <a href="#scenery" class="hover:underline">Phong Cảnh</a>
+    <a href="#booking" class="hover:underline">Đặt Vé</a>
+  </nav>
+
+    <!-- Giới thiệu chung -->
+    <section id="overview" class="p-6 bg-white text-center">
+      <h2 class="text-2xl font-semibold mb-4">Giới thiệu về Bắc Ninh</h2>
+      <p class="max-w-3xl mx-auto mb-6">
+        Bắc Ninh là mảnh đất địa linh nhân kiệt của Việt Nam, nổi tiếng với truyền thống lịch sử lâu đời và nền văn hóa đặc sắc. Là cái nôi của dân ca Quan họ, Bắc Ninh còn được biết đến với nhiều làng nghề truyền thống, những lễ hội đậm đà bản sắc dân tộc. Vẻ đẹp của Bắc Ninh là sự hòa quyện giữa nét cổ kính và hiện đại, từ các ngôi chùa cổ kính đến những khu đô thị năng động. Bắc Ninh xứng đáng là điểm đến hấp dẫn cho du khách trong và ngoài nước.
+      </p>
+
+
+
+
+
+
+
+
+<button id="openPopupBtn" aria-label="Mở tùy chọn hoặc chat">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<!-- Hộp thoại popup -->
+<div id="popupDialog">
+  <div class="popup-header">
+    <span>Tiêu đề Hộp thoại</span>
+    <button id="closePopupBtn" class="close-btn">&times;</button>
+  </div>
+  <div class="popup-content">
+    <p>Xin chào! Đây là nội dung bên trong hộp thoại.</p>
+    <p>Bạn có thể đặt bất kỳ nội dung HTML nào vào đây.</p>
+    <input type="text" placeholder="Nhập gì đó...">
+    <button>Gửi</button>
+  </div>
+</div>
+
+<!-- JavaScript gộp chung -->
+<script>
+  const openPopupButton = document.getElementById('openPopupBtn');
+  const closePopupButton = document.getElementById('closePopupBtn');
+  const popupDialog = document.getElementById('popupDialog');
+
+  function openPopup() {
+    popupDialog.classList.add('show');
+    openPopupButton.style.display = 'none';
+  }
+
+  function closePopup() {
+    popupDialog.classList.remove('show');
+    openPopupButton.style.display = 'flex'; // nút dùng flexbox nên để flex
+  }
+
+  openPopupButton.addEventListener('click', openPopup);
+  closePopupButton.addEventListener('click', closePopup);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Video Hòa Minzy -->
+      <div class="flex justify-center">
+        <iframe width="560" height="315" src="https://www.youtube.com/watch?v=CL13X-8o4h0" 
+          title="Video Bắc Ninh - Hòa Minzy" frameborder="0" allowfullscreen class="rounded-lg shadow-lg"></iframe>
+      </div>
+    </section>
+
+    <!-- Văn Hóa -->
+    <section id="culture" class="p-6 bg-gray-50">
+      <h2 class="text-2xl font-semibold mb-6">Văn Hóa Bắc Ninh</h2>
+      <p class="mb-6">
+        Văn hóa Bắc Ninh là sự kết tinh từ ngàn năm lịch sử, nổi bật với dân ca Quan họ được UNESCO công nhận là di sản văn hóa phi vật thể. Các lễ hội như hội Lim, lễ hội làng Diềm đều thu hút hàng vạn du khách mỗi năm. Bắc Ninh cũng là cái nôi của nhiều làng nghề truyền thống như tranh Đông Hồ, gốm Phù Lãng, với nét nghệ thuật mộc mạc, tinh tế. Mỗi nét văn hóa nơi đây đều mang trong mình chiều sâu lịch sử và tình người đậm đà.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Quan_ho_Bac_Ninh.jpg" alt="Quan họ" class="rounded">
+          <p class="text-center mt-2">Hát Quan họ - Tinh hoa văn hóa Bắc Ninh</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Hoi_Lim.jpg" alt="Hội Lim" class="rounded">
+          <p class="text-center mt-2">Hội Lim - lễ hội truyền thống đặc sắc</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Tranh_dong_ho.jpg" alt="Tranh Đông Hồ" class="rounded">
+          <p class="text-center mt-2">Tranh dân gian Đông Hồ</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Con Người -->
+    <section id="people" class="p-6 bg-white">
+      <h2 class="text-2xl font-semibold mb-6">Con Người Bắc Ninh</h2>
+      <p class="mb-6">
+        Con người Bắc Ninh nổi bật với tinh thần hiếu học, cần cù và mến khách. Từ thời phong kiến, Bắc Ninh đã có nhiều danh nhân, tiến sĩ nổi tiếng. Người dân nơi đây giữ gìn phong tục tập quán, lễ nghĩa truyền thống và luôn tự hào về nguồn cội quê hương. Với đức tính chăm chỉ và sáng tạo, họ đã góp phần xây dựng quê hương Bắc Ninh ngày càng giàu đẹp và văn minh.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/58/Van_Mieu_Bac_Ninh.jpg" alt="Văn Miếu Bắc Ninh" class="rounded">
+          <p class="text-center mt-2">Văn Miếu Bắc Ninh - Tôn vinh hiền tài</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Lang_nghe_Dong_Ho.jpg" alt="Làng nghề Đông Hồ" class="rounded">
+          <p class="text-center mt-2">Nghệ nhân tranh Đông Hồ</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Nguoi_Bac_Ninh.jpg" alt="Người dân Bắc Ninh" class="rounded">
+          <p class="text-center mt-2">Người dân Bắc Ninh mến khách</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phong Cảnh -->
+    <section id="scenery" class="p-6 bg-gray-50">
+      <h2 class="text-2xl font-semibold mb-6">Phong Cảnh Bắc Ninh</h2>
+      <p class="mb-6">
+        Bắc Ninh sở hữu những danh thắng nổi tiếng như chùa Dâu, chùa Bút Tháp với kiến trúc cổ kính, trầm mặc. Sông Cầu với dòng nước hiền hòa, thơ mộng đã đi vào bao câu ca Quan họ. Ngoài ra, làng quê Bắc Ninh với cánh đồng xanh mát, con đường làng quanh co, là điểm đến lý tưởng cho những ai yêu thích sự yên bình, giản dị.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Chua_Dau.jpg" alt="Chùa Dâu" class="rounded">
+          <p class="text-center mt-2">Chùa Dâu - ngôi chùa cổ nhất Việt Nam</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/But_Thap.jpg" alt="Chùa Bút Tháp" class="rounded">
+          <p class="text-center mt-2">Chùa Bút Tháp - tinh hoa kiến trúc Phật giáo</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Song_Cau.jpg" alt="Sông Cầu" class="rounded">
+          <p class="text-center mt-2">Sông Cầu thơ mộng</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ẩm Thực -->
+    <section id="food" class="p-6 bg-white">
+      <h2 class="text-2xl font-semibold mb-6">Ẩm Thực Bắc Ninh</h2>
+      <p class="mb-6">
+        Ẩm thực Bắc Ninh đậm đà hương vị quê hương với các món đặc sản như bánh phu thê, nem làng Bùi, cháo cá Bắc Ninh. Mỗi món ăn mang trong mình câu chuyện và hương vị riêng, được chế biến tỉ mỉ, tinh tế. Người Bắc Ninh không chỉ giữ gìn hương vị truyền thống mà còn sáng tạo để ẩm thực quê nhà ngày càng phong phú, hấp dẫn.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Banh_phu_the.jpg" alt="Bánh phu thê" class="rounded">
+          <p class="text-center mt-2">Bánh phu thê - biểu tượng tình yêu đôi lứa</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Nem_lang_Bui.jpg" alt="Nem làng Bùi" class="rounded">
+          <p class="text-center mt-2">Nem làng Bùi - đặc sản nổi tiếng Bắc Ninh</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Chao_ca.jpg" alt="Cháo cá" class="rounded">
+          <p class="text-center mt-2">Cháo cá - món ăn dân dã Bắc Ninh</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Đặt Vé Du Lịch (Mỗi vé chỉ 5 triệu đồng -->
+    <section id="booking" class="p-6 bg-white">
+      <h2 class="text-2xl font-semibold mb-6 text-center">Đặt Vé Du Lịch</h2>
+      <form onsubmit="event.preventDefault(); showPayment();" class="space-y-4 max-w-lg mx-auto">
+        <div>
+          <label class="block text-sm font-medium">Họ và Tên</label>
+          <input type="text" class="mt-1 w-full border p-2 rounded" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Số Điện Thoại</label>
+          <input type="tel" class="mt-1 w-full border p-2 rounded" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Chọn Khu Du Lịch</label>
+          <select class="mt-1 w-full border p-2 rounded" required>
+            <option value="">-- Chọn khu --</option>
+            <option>Chùa Dâu</option>
+            <option>Chùa Bút Tháp</option>
+            <option>Làng tranh Đông Hồ</option>
+            <option>Sông Cầu thơ mộng</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Số lượng vé</label>
+          <input type="number" min="1" value="1" class="mt-1 w-full border p-2 rounded" required>
+        </div>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Tiếp tục thanh toán</button>
+      </form>
+
+      <!-- Phần chọn ngân hàng thanh toán -->
+      <div id="payment-section" class="hidden mt-8 max-w-lg mx-auto bg-gray-100 p-6 rounded">
+        <h3 class="text-xl font-semibold mb-4">Chọn Ngân Hàng Thanh Toán</h3>
+        <select class="w-full border p-2 rounded mb-4">
+          <option value="">-- Chọn ngân hàng --</option>
+          <option>Vietcombank</option>
+          <option>Techcombank</option>
+          <option>MB Bank</option>
+          <option>VP Bank</option>
+        </select>
+        <button onclick="confirmPayment()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">Thanh Toán</button>
+      </div>
+
+      <!-- Thông báo thanh toán thành công -->
+      <div id="success-message" class="hidden text-center mt-6 text-green-600 font-bold text-xl">
+        Thanh toán thành công! 🎉
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-green-800 text-white p-4 text-center">
+    <p>Liên hệ: 0123 456 789 | Email: info@baccninhtravel.vn</p>
+    <p>Địa chỉ: TP. Bắc Ninh, tỉnh Bắc Ninh, Việt Nam</p>
+    <p class="mt-2">&copy; 2025 Bắc Ninh Travel</p>
+  </footer>
+
+</body>
+</html>
